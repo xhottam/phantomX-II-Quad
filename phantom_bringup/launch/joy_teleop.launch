@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Gamepad launch file -->
+
+<launch>
+    <arg name="joy_mapping" default="ps3"/>
+    <arg name="imu_port" default="/dev/ttyUSB1"/>
+    <arg name="imu_baud" default="57600"/>
+    <arg name="rplidar_port" default="/dev/ttyUSB2"/>
+    <rosparam command="load" file="$(find phantom_description)/params/$(arg joy_mapping).yaml" />
+    <node name="phantom_sensor" pkg="phantom_sensor" type="phantom_sensor" output="screen"/>
+    <node name="Playstation3_Controller" pkg="joy" type="joy_node">
+     <!--<param name="deadzone" value="0.05" />
+     <param name="coalesce_interval" value="1.0" />
+     <param name="autorepeat_rate" value="0.0"/>-->
+    </node>
+    <node name="Phantom_Teleop_Joystick" pkg="phantom_joystick" type="phantom_joystick" output="screen"/>
+    <node name="rplidarNode"          pkg="rplidar_ros"  type="rplidarNode" output="screen">
+     <param name="serial_port"         type="string" value="/dev/ttyUSB2"/>
+     <param name="serial_baudrate"     type="int"    value="115200"/>
+     <param name="frame_id"            type="string" value="laser"/>
+     <param name="inverted"            type="bool"   value="false"/>
+     <param name="angle_compensate"    type="bool"   value="true"/>
+    </node>
+    <!--<node name="imu_node" pkg="rosserial_python" type="serial_node.py" output="screen">
+        <param name="port" value="/dev/ttyUSB1" />
+        <param name="baud" value="57600" />
+    </node>-->
+   <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" >
+    <param name="video_device" value="/dev/video0" />
+    <param name="image_width" value="320" />
+    <param name="image_height" value="240" />
+    <param name="pixel_format" value="yuyv" />
+    <param name="camera_frame_id" value="usb_cam" />
+    <param name="io_method" value="mmap"/>
+    <param name="framerate" value="30" />
+    <param name="camera_info_url" value="file:///home/odroid/catkin_ws/src/phantomX-II/phantom_bringup/launch/R5U870_.yaml"/>
+    <param name="camera_name" value="camera" />
+  </node>
+</launch>
