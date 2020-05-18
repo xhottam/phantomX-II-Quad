@@ -739,7 +739,7 @@ void ArbotixPro::TxRx_CM530(int rightY,int rightX,int leftY,int leftX,int button
 	unsigned char txpacket[9];
 
         txpacket[0]  = 0xFF;
-        txpacket[1]  = 0x55;
+        txpacket[1]  = 0xFF;
         txpacket[2]  = rightY;
         txpacket[3]  = rightX;
         txpacket[4]  = leftY;
@@ -789,72 +789,11 @@ void  ArbotixPro::_TxRx_CM530(unsigned char *txpacket,unsigned char *rxpacket,in
         m_Platform->WritePort(txpacket, 9);
         m_Platform->FlushPort();
 
-        int res = 0;
-        int get_length = 0;
-        int to_length = 63;
-while(1)
-{
-        int length = m_Platform->ReadPort(&rxpacket[get_length], to_length - get_length);
-        get_length += length;
-        if (get_length == to_length)
-        {
-                // Find packet header
-                int i;
-                for (i = 0; i < (get_length - 1); i++)
-                        {
-                                if (rxpacket[i] == 0xFF && rxpacket[i + 1] == 0xFF){
-                                        //printf("Find packet header\n");
-                                        //printf("find ->");
-                                        //timestamp();
-                                        break;
-                                }else if (i == (get_length - 2) && rxpacket[get_length - 1] == 0xFF){
-                                        //printf ("Indice %i rxpacket[%i] == 0\n",i,get_length -1);
-                                        break;
-                                }
-                        }
-                //printf("rxpacket[%i]\n",i);
-                if (i == 0)
-                        {
-                                // Check checksum
-                                //unsigned char checksum = CalculateChecksum(rxpacket);
-                                //printf("Chequeamos checksum\n");
-                                unsigned char checksum = checkSumatory(rxpacket,44);
-                                if (rxpacket[get_length - 1] == checksum){
-                                        /**printf("checksum SUCCESS\n");
-                                        for (int j = 0; j < 50; j++){
-                                                printf("DATA: %x\n",rxpacket[j]);
-                                        }*/
-
-                                        res = SUCCESS;
-                                }else{
-                                        res = RX_CORRUPT;
-                                }
-                                break;
-                        }
-                else
-                        {
-                                printf("try -> ");
-                                timestamp();
-                                printf("get_length --> before ->  %i after->",get_length);
-                                for (int j = 0; j < (get_length - i); j++)
-                                        rxpacket[j] = rxpacket[j + i];
-                                get_length -= i;
-                                printf(" = %i\n",get_length);
-                        }
-
-
-        }
- }
-
-
 
      m_Platform->HighPriorityRelease();
      if (priority > 0)
              m_Platform->MidPriorityRelease();
      if (priority > 1)
              m_Platform->LowPriorityRelease();
-
-
-
 }
 
