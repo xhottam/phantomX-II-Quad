@@ -50,33 +50,54 @@ void PhantomTeleopJoystick::joyCallback( const sensor_msgs::Joy::ConstPtr &joy )
     rightX = 128;
     rightY = 128;
 
+// R1 - options (Change walk gait, Change Leg in Single Leg, Change GP sequence) (Select on PS2)
+// R2 - Toggle walk method...  Run Sequence in GP mode
+// R3 - Walk method (Not done yet) - (PS2 R3)
+// L4 - Ballance mode on and off
+// L5 - Stand/Sit (Triangle on PS2)
+// L6+Right Joy UP/DOWN - Body up/down - (PS2 Dpad Up/Down)
+// L6+Right Joy Left/Right - Speed higher/lower - (PS2 DPad left/right)
+/* bitmasks for buttons array */
+// if(digitalRead(BUT_R1) == LOW) g_bButtons += 1;  BIT8DO_BUTTON_ACTION_A
+//if(digitalRead(BUT_R2) == LOW) g_bButtons += 2;      0x02  BIT8DO_BUTTON_ACTION_B
+//if(digitalRead(BUT_R3) == LOW) g_bButtons += 4;      0x04  BIT8DO_BUTTON_ACTION_Y
+//if(digitalRead(BUT_L4) == LOW) g_bButtons += 8;      0x08  BIT8DO_BUTTON_ACTION_X
+//if(digitalRead(BUT_L5) == LOW) g_bButtons += 16;     0x10  BIT8DO_BUTTON_START
+//if(digitalRead(BUT_L6) == LOW) g_bButtons += 32;     0x20  BIT8DO_BUTTON_SELECT
+//if(digitalRead(BUT_RT) == LOW) g_bButtons += 64;     0x40  BIT8DO_BUTTON_REAR_RIGHT_2
+//if(digitalRead(BUT_LT) == LOW) g_bButtons += 128;    0x80  BIT8DO_BUTTON_REAR_LEFT_2
+
     if( joy->buttons[BIT8DO_BUTTON_ACTION_X] == 1 )
     {
-     	 buttons += 8; 
+     	 buttons += 8;
     }
     if( joy->buttons[BIT8DO_BUTTON_ACTION_A] == 1 )
     {
-     	 buttons += 32; 
+     	 buttons += 1;
     }
     if( joy->buttons[BIT8DO_BUTTON_ACTION_B] == 1 )
     {
-     	 buttons += 1; 
+     	 buttons += 2;
     }
     if( joy->buttons[BIT8DO_BUTTON_ACTION_Y] == 1 )
     {
-     	 buttons += 16; 
-    }   
-    if( joy->buttons[BIT8DO_BUTTON_REAR_LEFT_1] == 1 )
-    {
-     	 buttons += 128; 
+     	 buttons += 4;
     }
-    if( joy->buttons[BIT8DO_BUTTON_REAR_RIGHT_1] == 1 )
+    if( joy->buttons[BIT8DO_BUTTON_START] == 1 )
     {
-     	 buttons += 64; 
+     	 buttons += 16;
     }
-    if( joy->buttons[BIT8DO_BUTTON_STICK_RIGHT] == 1 )
+    if( joy->buttons[BIT8DO_BUTTON_SELECT] == 1 )
     {
-     	 buttons += 2; 
+     	 buttons += 32;
+    }
+    if( joy->buttons[BIT8DO_BUTTON_REAR_RIGHT_2] == 1 )
+    {
+     	 buttons += 64;
+    }
+    if( joy->buttons[BIT8DO_BUTTON_REAR_LEFT_2] == 1 )
+    {
+         buttons += 128;
     }
 
     
