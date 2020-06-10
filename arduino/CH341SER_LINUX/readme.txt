@@ -22,3 +22,5 @@ sudo make
 depmod
 	make load
 ###################
+
+rosrun rosserial_python serial_node.py /dev/ttyUSB0
