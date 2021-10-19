@@ -1,7 +1,6 @@
 #include <phantom_teleop_joystick.h>
 #include <std_msgs/ByteMultiArray.h>
-#include <LinuxArbotixPro.h>
-#include <ArbotixPro.h>
+#include "LinuxDARwIn.h"
 
 #define	c1DEC		10
 #define _M_PI           3141
@@ -9,7 +8,7 @@
 #define ToDeg(x) ((x)*57.2957795131)  // *180/pi
 
 
-
+using namespace Robot;
 LinuxArbotixPro linux_arbotixpro("/dev/ttyUSB0");
 ArbotixPro arbotixpro(&linux_arbotixpro);
 

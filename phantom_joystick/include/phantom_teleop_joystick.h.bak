@@ -80,8 +80,7 @@ public:
         bool arbotix_con_feed;
 
         bool NON_TELEOP;
-        //unsigned char * rxpacket;
-        unsigned char * rxpacket[63];
+        unsigned char * rxpacket;
 
 private:
         void joyCallback( const sensor_msgs::Joy::ConstPtr &joy );
