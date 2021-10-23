@@ -56,3 +56,7 @@ catkin_make -DCATKIN_WHITELIST_PACKAGES="phantom_joystick;phantom_bringup" --for
 
 
 source /etc/skel/.bashrc
+
+############ftdi_sio.ko(.config###########)
+sudo chmod 666 /dev/ttyUSB0
+sudo usermod -a -G dialout edison
